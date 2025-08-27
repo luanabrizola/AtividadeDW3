@@ -1,0 +1,26 @@
+### Variáveis
+@url=http://localhost:3000
+
+
+### Requisição GET
+GET {{url}}
+
+
+### Contatos
+GET {{url}}/contatos
+
+### 
+GET {{url}}/contatos/4
+
+
+
+
+### Requisição POST
+POST {{url}}/contatos/2
+Content-Type: application/json
+
+{
+    "nome":"Luana",
+    "email": "luana@gmail.com",
+    "telefone": "4412399999"
+}
