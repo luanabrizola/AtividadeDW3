@@ -1,26 +1,29 @@
-### Variáveis
 @url=http://localhost:3000
 
 
-### Requisição GET
-GET {{url}}
-
-
-### Contatos
-GET {{url}}/contatos
-
-### 
-GET {{url}}/contatos/4
-
-
-
-
-### Requisição POST
-POST {{url}}/contatos/2
+# Criar contato
+POST http://localhost:3000/contatos
 Content-Type: application/json
 
 {
-    "nome":"Luana",
-    "email": "luana@gmail.com",
-    "telefone": "4412399999"
+  "nome": "Luana",
+  "email": "luana@gmail.com",
+  "telefone": "4412399999"
 }
+
+# Listar contatos
+GET http://localhost:3000/contatos
+
+# Buscar contato específico
+GET http://localhost:3000/contatos/1
+
+# Atualizar contato
+PUT http://localhost:3000/contatos/1
+Content-Type: application/json
+
+{
+  "telefone": "4499887766"
+}
+
+# Deletar contato
+DELETE http://localhost:3000/contatos/1
