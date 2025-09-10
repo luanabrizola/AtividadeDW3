@@ -1,0 +1,25 @@
+01. c) Service
+
+02. b)  Organizar o código por funcionalidade (feature), colocando todos os arquivos relacionados a uma feature
+(controller, service, etc.) juntos em um mesmo módulo.
+
+03. Pois há duas formas da utilizaçaõ da injeção de depêndecia, com e sem. Com a injenção, o código pode criar as instâncias das dependêcias, 
+sem a necessidade de receber de fontes externas, que é o caso da não utilização da DI.
+
+04. d) Receber requisições HTTP, chamar a camada de serviço e formatar a resposta
+
+05. a) Perfomance lenta da API devido ao uso do Fastify
+
+06. d) A depêndecia é passada como um argumento para o construtor da classe
+
+07. Em routes, é definido as rotas, utilizando o Fastify, com o controller ja montado. 
+O controller recebe a requisição HTTP, implementa a lógica de serviço para procurar o contato através do id e a partir disso
+exibe uma mensagem com a situação, se encontrado ou não.
+O service é responsável pelas regras de negócio, é retornado de repository a função de remover junto do id
+O repository faz contato direto com o banco de dados, é através dele que é realizado as consultas para a realização do serviço. 
+
+08. d) Uma classe de modelo que acumula tanto a lógica de negócio quanto a lógica de acesso a dados.
+
+09. c) Ser a única camada responsável pelo acesso aos dados (buscar, salvar, etc.).
+
+10. c) O "Acoplamento Forte", onde uma classe cria diretamente as instâncias de suas dependências

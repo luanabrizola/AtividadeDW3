@@ -22,9 +22,24 @@ export class ContatoController {
     return reply.send(contato);
   }
 
+  async getContatoByEmail(request, reply){
+    const {email} = request.params;
+    const contatoEmail = this.contatoService.getContatoByEmail(email);
+
+    if(!contatoEmail) {
+      return reply.code(404).send({message:'Contato não encotrado'})
+    }
+    return reply.send(contatoEmail)
+
+  }
+
   async createContato(request, reply) {
     const novoContato = this.contatoService.createContato(request.body);
-    return reply.code(201).send(novoContato);
+
+    if (!novoContato){
+      return reply.code(404).send({message: 'Não foi possível criar o novo contato'})
+    }
+    return reply.send(novoContato);
   }
 
   async updateContato(request, reply) {

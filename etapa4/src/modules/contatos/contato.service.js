@@ -1,3 +1,4 @@
+import { error } from 'node:console';
 import { ContatoRepository } from './contato.repository.js';
 
 export class ContatoService {
@@ -16,9 +17,16 @@ export class ContatoService {
     return this.contatoRepository.findById(id);
   }
 
+  getContatoByEmail(email){
+    return this.contatoRepository.findByEmail(email);
+  }
+
   createContato(contatoData) {
-    // No futuro, regras de negócio como "verificar email duplicado"
-    // viveriam aqui, ANTES de chamar o repositório.
+
+    if(!contatoData.nome || contatoData.nome.length < 3){
+      return(this.createContato)
+    }
+
     return this.contatoRepository.create(contatoData);
   }
 
