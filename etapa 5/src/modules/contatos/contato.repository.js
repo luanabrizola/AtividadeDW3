@@ -1,39 +1,46 @@
 import { randomUUID } from 'node:crypto';
+import dbPool from '../../infra/database.js'; // Importamos nosso pool de conexão
 
 export class ContatoRepository {
-  #contatos = [];
-
-  findAll() {
-    return this.#contatos;
+  
+  constructor() {
+    this.db = dbPool;
   }
 
-  findById(id) {
-    return this.#contatos.find(c => c.id === id);
+  async findAll() {
+    const result = await this.db.query('SELECT * FROM contatos ORDER BY nome ASC');
+    return result.rows;
   }
 
-  findByEmail(email){
-    return this.#contatos
+  async findById(id) {
+    const result = await this.db.query('SELECT * FROM contatos WHERE id = $1', [id]);
+    return result.rows[0] || null;
   }
 
-  create(contatoData) {
-    const novoContato = { id: randomUUID(), ...contatoData };
-    this.#contatos.push(novoContato);
-    return novoContato;
+  async create(contatoData) {
+    const { nome, email, telefone } = contatoData;
+    const id = randomUUID();
+    
+    const sql = 'INSERT INTO contatos (id, nome, email, telefone) VALUES ($1, $2, $3, $4) RETURNING *';
+    const values = [id, nome, email, telefone];
+    
+    const result = await this.db.query(sql, values);
+    return result.rows[0];
   }
 
-  update(id, contatoData) {
-    const index = this.#contatos.findIndex(c => c.id === id);
-    if (index === -1) return null;
+  async update(id, contatoData) {
+    const { nome, email, telefone } = contatoData;
 
-    this.#contatos[index] = { ...this.#contatos[index], ...contatoData };
-    return this.#contatos[index];
+    const sql = 'UPDATE contatos SET nome = $1, email = $2, telefone = $3 WHERE id = $4 RETURNING *';
+    const values = [nome, email, telefone, id];
+
+    const result = await this.db.query(sql, values);
+    return result.rows[0] || null;
   }
 
-  remove(id) {
-    const index = this.#contatos.findIndex(c => c.id === id);
-    if (index === -1) return false;
-
-    this.#contatos.splice(index, 1);
-    return true;
+  async remove(id) {
+    // O .query retorna um objeto de resultado. rowCount informa quantas linhas foram afetadas.
+    const result = await this.db.query('DELETE FROM contatos WHERE id = $1', [id]);
+    return result.rowCount > 0;
   }
 }
